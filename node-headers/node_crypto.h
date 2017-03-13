@@ -500,12 +500,14 @@ class Hmac : public BaseObject {
 
   Hmac(Environment* env, v8::Local<v8::Object> wrap)
       : BaseObject(env, wrap),
+        md_(nullptr),
         initialised_(false) {
     MakeWeak<Hmac>(this);
   }
 
  private:
   HMAC_CTX ctx_; /* coverity[member_decl] */
+  const EVP_MD* md_; /* coverity[member_decl] */
   bool initialised_;
 };
 
@@ -529,12 +531,14 @@ class Hash : public BaseObject {
 
   Hash(Environment* env, v8::Local<v8::Object> wrap)
       : BaseObject(env, wrap),
+        md_(nullptr),
         initialised_(false) {
     MakeWeak<Hash>(this);
   }
 
  private:
   EVP_MD_CTX mdctx_; /* coverity[member_decl] */
+  const EVP_MD* md_; /* coverity[member_decl] */
   bool initialised_;
   bool finalized_;
 };
@@ -553,6 +557,7 @@ class SignBase : public BaseObject {
 
   SignBase(Environment* env, v8::Local<v8::Object> wrap)
       : BaseObject(env, wrap),
+        md_(nullptr),
         initialised_(false) {
   }
 
@@ -566,11 +571,13 @@ class SignBase : public BaseObject {
   void CheckThrow(Error error);
 
   EVP_MD_CTX mdctx_; /* coverity[member_decl] */
+  const EVP_MD* md_; /* coverity[member_decl] */
   bool initialised_;
 };
 
 class Sign : public SignBase {
  public:
+
   static void Initialize(Environment* env, v8::Local<v8::Object> target);
 
   Error SignInit(const char* sign_type);

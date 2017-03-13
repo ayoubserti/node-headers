@@ -55,7 +55,7 @@ class HandleWrap : public AsyncWrap {
              uv_handle_t* handle,
              AsyncWrap::ProviderType provider,
              AsyncWrap* parent = nullptr);
-  ~HandleWrap() override;
+  virtual ~HandleWrap() override;
 
  private:
   friend class Environment;
